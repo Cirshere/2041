@@ -1,0 +1,6 @@
+Date                Start       Stop    Activity        Comments
+24/04/2021          10pm        11pm    Coding          -n Works, begun planning how to implement
+25/04/2021          10pm        1am     Coding          delete, print, quit works, 
+                                                        sub still testing. Regex broken
+26/04/2021          2am         3am     Coding          sub not fully functional,regex not fully
+                                                        functional

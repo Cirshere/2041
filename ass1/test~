@@ -1,0 +1,24 @@
+#!/bin/dash
+
+for arg in "$@"
+do
+    #Test for girt-init
+    if [ $arg -eq 1 ] 
+    then
+        if [ -d '.girt' ]
+        then
+            echo ".girt Currently exists"
+            exit
+        fi
+        
+        sh ./girt-init
+        
+        if [ -d '.girt' ]
+        then
+            echo "Test 1 Successful"
+        else
+            echo "Test 1 Failed"
+        fi
+    fi
+    
+done

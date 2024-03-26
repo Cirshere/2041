@@ -1,0 +1,16 @@
+#!/bin/dash
+
+for arg in "$@"
+do
+
+    list=$(cat $arg | grep -E "#include [^<]" | cut -d'"' -f2)
+    
+    for word in $list
+    do
+    
+        echo $word
+        echo hi
+    
+    done
+
+done

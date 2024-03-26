@@ -1,0 +1,9 @@
+#!/bin/dash
+
+if [ ! -f ".girt/log.txt" ]
+then
+    echo -n
+    exit
+fi
+
+cat ".girt/log.txt"

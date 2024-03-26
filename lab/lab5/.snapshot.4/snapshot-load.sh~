@@ -1,0 +1,9 @@
+#!/bin/dash
+
+if [ ! -d ".snapshot.$1" ]
+then
+    exit
+fi
+
+sh 'snapshot.sh'
+

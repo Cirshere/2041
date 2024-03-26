@@ -1,0 +1,70 @@
+#!/bin/dash
+
+if [ "$#" -ge 1 ]
+then
+
+    force=0
+    cached=0
+
+    for arg in "$@"
+    do
+    
+        if [ "$arg" = '--force' ]
+        then
+            force=1
+            continue
+        elif [ "$arg" = '--cached' ]
+        then
+            cached=1
+            continue
+        fi
+        
+        if [ ! -f ".girt/index/$arg" ]
+        then
+            echo "girt-rm: error: '$arg' is not in the girt repository"
+            continue
+        fi
+        
+        if [ "$force" -eq 0 ] && [ "$cached" -eq 0 ]
+        then
+        
+            if [ ! -f ".girt/$arg" ] || [ ! cmp ".girt/$arg" ".girt/index/$arg" > /dev/null 2>&1 ]
+            then
+               echo "girt-rm: error: '$arg' has staged changes in the index"
+               continue
+            fi
+        
+            if (( ! cmp "$arg" ".girt/index/$arg" > /dev/null 2>&1 )) && (( ! cmp ".girt/$arg" ".girt/index/$arg" > /dev/null 2>&1 ))
+            then
+                echo "girt-rm: error: '$arg' in index is different to both the working file and the repository"
+                continue        
+            elif ! cmp "$arg" ".girt/$arg" > /dev/null 2>&1
+            then                
+                echo "girt-rm: error: '$arg' in the repository is different to the working file"
+                continue
+            fi
+        
+        fi
+        
+        if (( ! cmp "$arg" ".girt/index/$arg" > /dev/null 2>&1 )) && (( ! cmp ".girt/$arg" ".girt/index/$arg" > /dev/null 2>&1 ))
+        then
+            echo "girt-rm: error: '$arg' in index is different to both the working file and the repository"
+            continue
+        fi
+        
+        rm ".girt/index/$arg"       
+        if [ "$cached" -eq 0 ]
+        then
+            rm "$arg"
+        fi
+        
+        # NEED TO WORK ON THE FORCED COMPONENT - CHECK FOR LOSS OF WORK
+        # [ cmp $file .girt/$file ]
+    
+    done
+
+else
+
+    echo "Correct usage is ./girt-rm [--force] [--cached] filenames"
+
+fi

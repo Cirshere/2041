@@ -1,0 +1,36 @@
+#!/usr/bin/perl -w
+
+%lyrics = ();   
+foreach $file (glob "lyrics/*.txt") {
+    open FILE, "<", $file or die;
+    
+    $filename = substr("$file", 7, -4);
+    $filename =~ s/_/ /g;
+       
+    while ($line = <FILE>) {
+        chomp $line;
+        @words = split /[^a-zA-Z]/, $line;
+        foreach $word (@words) {
+            if ($word eq "") {
+                next;
+            }
+            
+            $lyrics{$filename}{$word}++;
+
+            $lyrics{$filename}{total}++;
+        }
+    }
+    close FILE;      
+}
+
+#print("$filename: $lyrics{$filename}{total}\n");
+
+foreach $file (glob "lyrics/*.txt") {
+    open FILE, "<", $file or die;
+    
+    $filename = substr($file, 7, -4);
+    $filename =~ s/_/ /g;
+    
+    print("$filename\n");
+    close FILE;   
+}

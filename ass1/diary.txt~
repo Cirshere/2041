@@ -1,0 +1,19 @@
+Date        Start       Stop        Activity            Comments
+18/03/2021  2:30PM      2:35PM      Coding              Made girt-init
+20/03/2021  5:00PM      6:00PM      Coding              Worked on girt-add and girt-commit
+21/03/2021  8:00PM      9:30PM      Coding/Debugging    Worked on girt-log and girt-show
+                                                        Debugged girt-commit, was not tracking
+25/03/2021  12:00PM     2:00PM      Debugging           Fixed girt-init, girt-add, girt-commit
+                                                        to match the reference implmentation. Minor
+                                                        issues with commit still.
+26/03/2021  8:00PM      10:30PM     Debugging           girt-commit now functional, changed
+                                                        implementation. Tested if other commands
+                                                        are still functional. Fixed girt-show to
+                                                        match reference implementation
+27/03/2021  7:00PM      8:30PM      Coding              Implemented girt-rm. Issues remaining
+4/04/2021   11:00PM     1:00AM      Coding/Debugging    Finished girt-rm. Fixed up remaining issues
+                                                        and made to match reference
+5/04/2021   8:00PM      2:00AM     Coding/Debugging    Issues with girt-add, using add to delete
+                                    Testing             and update index. Attempts to fix. Wrote
+                                                        test[0-6].sh
+                                                        

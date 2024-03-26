@@ -1,0 +1,5 @@
+#!/usr/bin/perl -w
+
+
+
+seq 1 100 | ./

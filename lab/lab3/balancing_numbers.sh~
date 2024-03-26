@@ -1,0 +1,6 @@
+#!/bin/bash
+
+while read lines
+do
+    tr '01234' '<' < $lines | tr '6789' '>' < $lines | echo $lines
+done

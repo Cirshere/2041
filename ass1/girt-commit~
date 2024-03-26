@@ -1,0 +1,106 @@
+#!/bin/dash
+
+if [ ! -f ".girt/log.txt" ]
+    then
+        > ".girt/log.txt"
+    fi
+
+if [ "$#" -eq 2 ] && [ "$1" = '-m' ]
+then
+
+# Checks if there are files to commit
+    diff=0
+    
+    for file in .girt/index/*
+    do
+        filename=$( echo "$file" | cut -d'/' -f3 )
+        if ! cmp "$file" ".girt/$filename" > /dev/null 2>&1 || [ "$file" = '.del$' ]
+        then
+            diff=1
+        fi
+    done
+    
+    if  [ $diff -eq 0 ]
+    then
+        echo "nothing to commit"
+        exit
+    fi
+    
+# Commit component
+    i=0
+    while [ -d ".girt/.$i" ]
+    do
+        i=$((i+1))
+    done
+    mkdir ".girt/.$i"
+    
+    for file in .girt/index/*
+    do
+        
+        cp "$file" .girt/.$i
+        cp "$file" .girt
+        
+    done
+    
+    echo "$i $2" | cat - ".girt/log.txt" > temp && mv temp ".girt/log.txt"
+    echo "Committed as commit $i"
+
+elif [ "$#" -eq 3 ] && [ "$1" = '-a' ] && [ "$2" = '-m' ]
+then
+
+# Updates index files from curr dir
+    for file in .girt/index/*
+    do
+        filename=$( echo "$file" | cut -d'/' -f3 )        
+        cp "$filename" .girt/index
+    done
+
+# Checks if there are files to commit
+    diff=0
+    
+    for file in .girt/index/*
+    do
+        filename=$( echo "$file" | cut -d'/' -f3 )
+        if ! cmp "$file" ".girt/$filename" > /dev/null 2>&1
+        then
+            diff=1
+        fi
+    done
+    
+    if  [ $diff -eq 0 ]
+    then
+        echo "nothing to commit"
+        exit
+    fi
+
+# Commit component
+    i=0
+    while [ -d ".girt/.$i" ]
+    do
+        i=$((i+1))
+    done
+    mkdir ".girt/.$i"
+    
+    for file in .girt/index/*
+    do
+        
+        if [ "$file" = '.del$' ]
+        then
+            rm "$file"
+        fi
+        
+        cp "$file" ".girt/.$i"
+        cp "$file" ".girt"
+        
+    done
+    
+    echo "$i $2" | cat - ".girt/log.txt" > temp && mv temp ".girt/log.txt"
+    echo "Committed as commit $i"
+
+else
+    
+    echo "Correct usage is ./girt-commit [-a] -m 'message'"
+    
+fi
+
+

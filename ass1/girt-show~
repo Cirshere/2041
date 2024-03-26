@@ -1,0 +1,36 @@
+#!/bin/dash
+
+if [ "$#" -ne 1 ]
+then
+    echo "Correct usage is ./girtshow [commit]:filename"
+    exit
+fi
+
+dir=$(echo $1 | cut -d':' -f1 )
+file=$(echo $1 | cut -d':' -f2 )
+
+if [ "$dir" = "" ]
+then
+    if [ ! -f ".girt/index/$file" ]
+    then
+        echo "girt-show: error: '$file' not found in index"
+        exit
+    fi
+    
+    cat ".girt/index/$file"
+
+elif  echo "$dir" | grep -E '^[0-9]+$' > /dev/null
+then
+    if [ ! -d ".girt/.$dir" ]
+    then
+        echo "Commit $dir does not exist"
+        exit
+    elif [ ! -f ".girt/.$dir/$file" ]
+    then
+        echo "girt-show: error: '$file' not found in commit $dir"
+        exit
+    fi
+    
+    cat ".girt/.$dir/$file"
+    
+fi
